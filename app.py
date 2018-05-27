@@ -13,12 +13,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'secret_key'
 api = Api(app)
 
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
-
 jwt = JWT(app, authenticate, identity)
 
 api.add_resource(Store, "/store/<string:name>")
@@ -30,8 +24,4 @@ api.add_resource(UserRegister, "/register")
 # execute app.run only if we run app.py,
 # and not execute app.run when it is imported from other file
 if __name__ == '__main__':
-    from db import db
-
-    print('starting app..')
-    db.init_app(app)
     app.run(port=5000, debug=True)
